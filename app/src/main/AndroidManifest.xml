@@ -9,14 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Entry activity -->
         <activity
             android:name="com.development.arjangupta.plainsparisreferralapp.MainActivity"
-            android:label="Plains Paris">
+            android:label="Plains Paris Referral App">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Get referee information activity -->
+        <activity android:name=".GetReferralInfo"></activity>
     </application>
 
 </manifest>
