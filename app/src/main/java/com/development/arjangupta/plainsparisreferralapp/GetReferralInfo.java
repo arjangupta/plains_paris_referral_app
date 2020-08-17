@@ -26,6 +26,8 @@ public class GetReferralInfo extends AppCompatActivity {
     private String _referee_phone_number     = "";
     private String _referee_name             = "";
     private OkHttpClient _http_client        = new OkHttpClient();
+    private boolean plains_paris_sms_success = false;
+    private boolean referee_sms_success      = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class GetReferralInfo extends AppCompatActivity {
                 Log.d(TAG, "The given message is: " + message);
 
                 // Build whole referral message
-                _all_referral_info = "\nHello, Plains Paris! This person was just referred to you:\n"
+                _all_referral_info = "Hello, Plains Paris! This person was just referred to you:\n"
                         + "Name: " + name + "\n"
                         + "Phone: " + phone + "\n"
                         + "Email: " + email + "\n"
@@ -102,12 +104,7 @@ public class GetReferralInfo extends AppCompatActivity {
                         }
                     });
                 } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),"SMS Sent to Plains Paris!",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    notifySMSSuccess("PP");
                 }
             }
         });
@@ -139,14 +136,33 @@ public class GetReferralInfo extends AppCompatActivity {
                         }
                     });
                 } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),"SMS Sent to " + _referee_name + "!",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    notifySMSSuccess("Referee");
                 }
             }
         });
+    }
+
+    void notifySMSSuccess(String success_type) {
+        if ("PP" == success_type) {
+            plains_paris_sms_success = true;
+        } else if ("Referee" == success_type) {
+            referee_sms_success = true;
+        }
+        evaluateWhetherActivityIsDone();
+    }
+
+    void evaluateWhetherActivityIsDone() {
+        if ( plains_paris_sms_success && referee_sms_success ) {
+            // Show a message that the referral succeeded
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),"Successfully sent referral!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // End activity
+            finish();
+        }
     }
 }
