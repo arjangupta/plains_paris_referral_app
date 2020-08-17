@@ -23,7 +23,8 @@ public class GetReferralInfo extends AppCompatActivity {
     private static final String TAG          = "GetReferralInfo";
     private final String _ngrok_url          = "http://fafd18114419.ngrok.io/sms";
     private String _all_referral_info        = "";
-    private String _referree_phone_number    = "";
+    private String _referee_phone_number     = "";
+    private String _referee_name             = "";
     private OkHttpClient _http_client        = new OkHttpClient();
 
     @Override
@@ -53,7 +54,8 @@ public class GetReferralInfo extends AppCompatActivity {
                         + "Email:" + email + "\n"
                         + "Message from referrer: " + message;
 
-                _referree_phone_number = phone;
+                _referee_phone_number = phone;
+                _referee_name = name;
 
                 try {
                     // Send the POST message for the SMS to Plains Paris
@@ -90,11 +92,11 @@ public class GetReferralInfo extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d(TAG, "Response: " + response.message());
-                if (500 == response.code()) {
+                if (200 != response.code()) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "SMS Failure", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Failed to send SMS to Plains Paris", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
@@ -111,7 +113,7 @@ public class GetReferralInfo extends AppCompatActivity {
 
     void sendPOSTRequestToRefree() throws IOException {
         RequestBody formBody = new FormBody.Builder()
-                .add("To", _referree_phone_number)
+                .add("To", _referee_phone_number)
                 .add("Body", "You have been referred to Plains Paris! Please download their app here: <insert_link>")
                 .build();
         Request request = new Request.Builder()
@@ -127,18 +129,18 @@ public class GetReferralInfo extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d(TAG, "Response: " + response.message());
-                if (500 == response.code()) {
+                if (200 != response.code()) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "SMS Failure", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Failed to send SMS to " + _referee_name, Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(),"SMS Sent to Plains Paris!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"SMS Sent to " + _referee_name + "!",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
