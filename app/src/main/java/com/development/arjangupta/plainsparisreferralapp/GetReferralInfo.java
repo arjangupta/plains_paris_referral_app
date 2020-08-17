@@ -48,10 +48,10 @@ public class GetReferralInfo extends AppCompatActivity {
                 Log.d(TAG, "The given message is: " + message);
 
                 // Build whole referral message
-                _all_referral_info = "Hello, Plains Paris, this person was just referred to you:\n"
-                        + "Name:" + name + "\n"
-                        + "Phone:" + phone + "\n"
-                        + "Email:" + email + "\n"
+                _all_referral_info = "\nHello, Plains Paris! This person was just referred to you:\n"
+                        + "Name: " + name + "\n"
+                        + "Phone: " + phone + "\n"
+                        + "Email: " + email + "\n"
                         + "Message from referrer: " + message;
 
                 _referee_phone_number = phone;
@@ -60,9 +60,11 @@ public class GetReferralInfo extends AppCompatActivity {
                 try {
                     // Send the POST message for the SMS to Plains Paris
                     sendPOSTRequestForPlainsParisText();
+                    // Wait for a second
+                    Thread.sleep(1000);
                     // Send the POST message for the SMS to the referee
                     sendPOSTRequestToRefree();
-                } catch (IOException exception) {
+                } catch (IOException | InterruptedException exception) {
                     exception.printStackTrace();
                 }
             }
