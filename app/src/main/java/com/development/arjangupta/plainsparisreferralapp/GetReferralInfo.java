@@ -28,7 +28,7 @@ public class GetReferralInfo extends AppCompatActivity {
                 Log.d(SUBMIT_BUTTON_TAG, "The given name is: " + name);
                 Log.d(SUBMIT_BUTTON_TAG, "The given phone number is: " + phone);
                 Log.d(SUBMIT_BUTTON_TAG, "The given email is: " + email);
-                Log.d(SUBMIT_BUTTON_TAG, "The given message is " + message);
+                Log.d(SUBMIT_BUTTON_TAG, "The given message is: " + message);
             }
 
             private static final String SUBMIT_BUTTON_TAG = "Submit Button";
