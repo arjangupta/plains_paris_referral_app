@@ -49,6 +49,15 @@ public class GetReferralInfo extends AppCompatActivity {
                 Log.d(TAG, "The given email is: " + email);
                 Log.d(TAG, "The given message is: " + message);
 
+                if ( name.isEmpty() || phone.isEmpty() || email.isEmpty() ) {
+                    Toast.makeText(getApplicationContext(),"Name, phone, and/or email field is empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if ( message.isEmpty() ) {
+                    message = "None";
+                }
+
                 // Build whole referral message
                 _all_referral_info = "Hello, Plains Paris! This person was just referred to you:\n"
                         + "Name: " + name + "\n"
